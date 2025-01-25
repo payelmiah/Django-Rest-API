@@ -1,10 +1,57 @@
-from django.shortcuts import render
+'''from django.shortcuts import render
 from .models import Aiquest
 from .serializers import AiquestSerializer
 from rest_framework.views import APIView #class based view
-from rest_framework.response import Response
+from rest_framework.response import Response'''
+#Using generic class-based views
+
+from .models import Aiquest #import model class
+from .serializers import AiquestSerializer #import serializer class
+from rest_framework.generics import GenericAPIView #class based view for CRUD operation 
+from rest_framework.mixins import ListModelMixin , CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin #list view mixins for list view and create view mixins for create view
 
 
+
+#class based view for list
+class AiquestList(ListModelMixin, GenericAPIView):
+    queryset = Aiquest.objects.all()
+    serializer_class = AiquestSerializer
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+#class based view for create 
+class AiquestCreate(CreateModelMixin, GenericAPIView):
+    queryset = Aiquest.objects.all()
+    serializer_class = AiquestSerializer
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+#class based view for retrieve      
+class AiquestRetrieve(RetrieveModelMixin, GenericAPIView):
+    queryset = Aiquest.objects.all()
+    serializer_class = AiquestSerializer
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs) 
+    
+#class based view for update
+class AiquestUpdate(GenericAPIView, UpdateModelMixin):
+    queryset = Aiquest.objects.all()
+    serializer_class = AiquestSerializer
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+#class based view for delete
+class AiquestDelete(GenericAPIView, DestroyModelMixin):
+    queryset = Aiquest.objects.all()
+    serializer_class = AiquestSerializer
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+
+ 
+'''
 #class based view
 class AiquestCreate(APIView):
     def get(self, request, pk=None, format=None):
@@ -61,7 +108,7 @@ class AiquestCreate(APIView):
         ai = Aiquest.objects.get(id = id)
         ai.delete()
         return Response({'msg':'Data successfully Deleted'})
-    
+    '''
     
     
 
