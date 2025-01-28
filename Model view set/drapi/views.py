@@ -1,7 +1,7 @@
 from .models import Aiquest #import model class
 from .serializers import AiquestSerializer #import serializer class
 from rest_framework import viewsets #import viewsets 
-
+from rest_framework.permissions import IsAdminUser #import permission class
 
 
 
@@ -10,6 +10,8 @@ class Aiquest_model_view(viewsets.ModelViewSet):
     # List, Create, Retrieve, Update, Destroy, partial_update
     queryset = Aiquest.objects.all()
     serializer_class = AiquestSerializer
+    permission_classes = [IsAdminUser] #permission for admin user
+    
    
    
     
